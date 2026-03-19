@@ -8,7 +8,6 @@ import Profile from '@/views/Profile.vue'
 import Report from '@/views/Report.vue'
 import Records from '@/views/Records.vue'
 
-
 const routes = [
   { path: '/', name: 'Home', component: Home },
   { path: '/about', name: 'About', component: About },
@@ -17,13 +16,12 @@ const routes = [
   { path: '/profile', name: 'Profile', component: Profile },
   { path: '/report', name: 'Report', component: Report },
   { path: '/records', name: 'Records', component: Records },
-  { path: '/map', name: 'Map', component: () => import('@/views/MapView.vue') }  // 使用 lazy loading
-
+  { path: '/map', name: 'Map', component: () => import('@/views/MapView.vue') }, // 使用 lazy loading
 ]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes
+  routes,
 })
 
 export default router

@@ -23,7 +23,7 @@ export const sidebarConfig: Record<string, MenuItem[]> = {
     },
 
     { name: '檢舉歷史', path: '/records' },
-    { name: '被檢舉紀錄', path: '/reported' },
+    { name: '被檢舉紀錄', path: '/report' },
 
     { name: '行車紀錄器檢舉', path: '/dashcam' },
   ],
