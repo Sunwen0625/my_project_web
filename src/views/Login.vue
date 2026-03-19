@@ -1,22 +1,45 @@
 <template>
-  <div class="login-container">
-    <div class="login-card">
-      <h2>登入</h2>
+  <div class="flex justify-center items-center h-full">
+    <div class="w-[360px] p-8 rounded-2xl shadow-lg text-center text-gray-200">
+      <h2 class="text-2xl font-bold text-white mb-5">登入</h2>
+
       <form @submit.prevent="handleLogin">
-        <div class="form-group">
-          <label for="email">電子郵件</label>
-          <input type="email" id="email" v-model="form.email" required />
+        <!-- Email -->
+        <div class="mb-4 text-left">
+          <label class="block mb-1.5 text-sm text-gray-400"> 電子郵件 </label>
+          <input
+            type="email"
+            v-model="form.email"
+            required
+            class="w-full px-3 py-2 rounded-lg border border-gray-600 bg-[#2a2a2a] text-white outline-none text-sm focus:border-blue-500"
+          />
         </div>
 
-        <div class="form-group">
-          <label for="password">密碼</label>
-          <input type="password" id="password" v-model="form.password" required />
+        <!-- Password -->
+        <div class="mb-4 text-left">
+          <label class="block mb-1.5 text-sm text-gray-400"> 密碼 </label>
+          <input
+            type="password"
+            v-model="form.password"
+            required
+            class="w-full px-3 py-2 rounded-lg border border-gray-600 bg-[#2a2a2a] text-white outline-none text-sm focus:border-blue-500"
+          />
         </div>
 
-        <button type="submit" class="login-btn">登入</button>
+        <!-- Button -->
+        <button
+          type="submit"
+          class="mt-2 w-full py-3 rounded-xl bg-blue-500 text-white text-base font-semibold hover:bg-blue-400 hover:-translate-y-0.5 transition-all duration-300"
+        >
+          登入
+        </button>
 
-        <p class="register-link">
-          還沒有帳號嗎？ <RouterLink to="/register">立即註冊</RouterLink>
+        <!-- Register -->
+        <p class="mt-4 text-sm text-gray-400">
+          還沒有帳號嗎？
+          <RouterLink to="/register" class="text-orange-500 font-semibold hover:underline">
+            立即註冊
+          </RouterLink>
         </p>
       </form>
     </div>
@@ -24,108 +47,33 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
-import { RouterLink } from "vue-router"
+import { ref } from 'vue'
+import { RouterLink, useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+
+const router = useRouter()
+const auth = useAuthStore()
 
 const form = ref({
-  email: "",
-  password: ""
+  email: '',
+  password: '',
 })
 
 const handleLogin = () => {
-  console.log("登入資料：", form.value)
-  alert("登入成功！🎉")
+  console.log('登入資料：', form.value)
+
+  // 🔹 模擬登入邏輯（之後換 API）
+  if (form.value.email === 'admin@test.com') {
+    auth.loginAsAdmin({
+      name: 'Admin',
+    })
+  } else {
+    auth.loginAsUser({
+      name: 'User',
+    })
+  }
+
+  // 🔹 導回首頁（Navbar 會自動更新）
+  router.push('/')
 }
 </script>
-
-<style scoped>
-/* 背景 */
-.login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    background-color: transparent; /* 🔹 主背景 */
-}
-
-/* 黑色卡片 */
-.login-card {
-  padding: 30px;
-  width: 360px;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-  text-align: center;
-  color: #eee; /* 🔹 文字顏色改亮 */
-}
-
-/* 標題 */
-.login-card h2 {
-  margin-bottom: 20px;
-  color: #fff;
-}
-
-/* 表單輸入區 */
-.form-group {
-  margin-bottom: 15px;
-  text-align: left;
-}
-
-label {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 14px;
-  color: #ccc; /* 🔹 提示文字用灰色 */
-}
-
-input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #555;
-  background: #2a2a2a; /* 🔹 輸入框背景 */
-  color: #fff; /* 🔹 輸入文字 */
-  outline: none;
-  font-size: 14px;
-}
-
-input:focus {
-  border-color: #2196f3; /* 🔹 聚焦時顯示藍色邊框 */
-}
-
-/* 登入按鈕（藍色） */
-.login-btn {
-  margin-top: 10px;
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 10px;
-  background: #2196f3;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.login-btn:hover {
-  background: #42a5f5;
-  transform: translateY(-2px);
-}
-
-/* 註冊連結 */
-.register-link {
-  margin-top: 15px;
-  font-size: 14px;
-  color: #bbb;
-}
-
-.register-link a {
-  color: #ff9800;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.register-link a:hover {
-  text-decoration: underline;
-}
-</style>

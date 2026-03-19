@@ -11,12 +11,12 @@ import Sidebar from './components/layout/Sidebar.vue'
     <HeaderView />
 
     <!-- 主要區塊：Sidebar + 右側內容 -->
-    <div class="grid grid-cols-[240px_1fr] gap-0">
+    <div class="grid grid-cols-[240px_1fr] flex-1">
       <!-- Sidebar -->
-      <Sidebar class="md:relative md:h-auto md:pb-2 md:border-b md:border-gray-800" />
+      <Sidebar class="h-full" />
 
       <!-- 右側內容 -->
-      <section class="flex-1 p-5 md:p-2 bg-black flex justify-center items-center">
+      <section class="p-5 bg-black flex justify-center items-center overflow-auto">
         <RouterView />
       </section>
     </div>

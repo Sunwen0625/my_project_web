@@ -3,90 +3,49 @@ import { RouterLink } from 'vue-router'
 </script>
 
 <template>
-    <aside class="sidebar">
-        <nav class="menu">
-          <RouterLink to="/" class="menu-item">首頁</RouterLink>
-          <RouterLink to="/about" class="menu-item">關於我們</RouterLink>
-          <RouterLink to="/profile" class="menu-item">個人資料</RouterLink>
-          <RouterLink to="/report" class="menu-item">檢舉違規停車</RouterLink>
-          <RouterLink to="/records" class="menu-item">檢舉紀錄</RouterLink>
-          <RouterLink to="/map" class="menu-item">地圖</RouterLink>
-        </nav>
-      </aside>
+  <aside
+    class="sticky top-0 self-start h-screen w-64 flex-shrink-0 overflow-y-auto bg-[#2b2a2a] px-3 py-4 shadow-[inset_-1px_0_0_rgba(255,255,255,0.06)] scrollbar-thin scrollbar-track-[#2a2a2a] scrollbar-thumb-[#444] hover:scrollbar-thumb-[#555]"
+  >
+    <nav class="flex flex-col gap-1.5 p-0 m-0">
+      <RouterLink
+        v-for="item in menuItems"
+        :key="item.path"
+        :to="item.path"
+        class="block px-3 py-2.5 rounded-lg text-white text-base no-underline outline-none transition-all duration-200 hover:bg-[#3a3a3a] focus-visible:ring-4 focus-visible:ring-white/10"
+        active-class="bg-[#424242] font-semibold shadow-[inset_3px_0_0_0_#969697]"
+        exact-active-class="bg-[#4a4a4a] shadow-[inset_3px_0_0_0_#b5b5b5]"
+      >
+        {{ item.name }}
+      </RouterLink>
+    </nav>
+  </aside>
 </template>
 
+<script lang="ts">
+// 為了簡潔使用循環渲染，也可手動展開
+const menuItems = [
+  { name: '首頁', path: '/' },
+  { name: '關於我們', path: '/about' },
+  { name: '個人資料', path: '/profile' },
+  { name: '檢舉違規停車', path: '/report' },
+  { name: '檢舉紀錄', path: '/records' },
+  { name: '地圖', path: '/map' },
+]
+</script>
+
 <style scoped>
-    /* 側邊欄樣式（沿用你的深色） */
-    .sidebar {
-    background: #2b2a2a;
-    border-right: none;
-    box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.06);
-    padding: 16px 12px;
-    position: sticky;
-    top: 0;
-    align-self: start;
-    height: calc(100vh - 0px);
-    overflow: auto;
-    }
-
-    /* 自訂捲軸（深色 Sidebar 比較協調） */
-    .sidebar::-webkit-scrollbar {
-    width: 8px;
-    }
-    .sidebar::-webkit-scrollbar-track {
-    background: #2a2a2a;
-    }
-    .sidebar::-webkit-scrollbar-thumb {
-    background: #444;
-    border-radius: 8px;
-    }
-    .sidebar::-webkit-scrollbar-thumb:hover {
-    background: #555;
-    }
-
-    /* 導覽選單 */
-    .menu {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin: 0;
-    padding: 0;
-    }
-
-    /* 單一選單項目（保留你的白字） */
-    .menu-item {
-    display: block;
-    padding: 10px 12px;
-    border-radius: 8px;
-    text-decoration: none;
-    color: #ffffff;
-    font-size: 16px;
-    transition: background 0.2s ease, color 0.2s ease, transform 0.05s ease;
-    outline: none; /* 讓 focus-visible 生效更好看 */
-    }
-
-    /* 滑過效果（比 #969697 更適合深底的微亮灰） */
-    .menu-item:hover {
-    background: #3a3a3a;
-    }
-
-    /* 鍵盤可及性：聚焦時的外框（不影響滑鼠點擊） */
-    .menu-item:focus-visible {
-    box-shadow: 0 0 0 3px rgba(255,255,255,0.18);
-    }
-
-    /* 目前所在頁面（Vue Router 會自動加上此類名） */
-    .menu-item.router-link-active {
-    background: #424242;       /* 比 hover 再明顯一點 */
-    color: #ffffff;
-    font-weight: 600;
-    /* 左側色條作為重點（可當品牌色替換） */
-    box-shadow: inset 3px 0 0 0 #969697;
-    }
-
-    /* 完全精準匹配（通常是首頁 /exact match）可略微再強化 */
-    .menu-item.router-link-exact-active {
-    background: #4a4a4a;
-    box-shadow: inset 3px 0 0 0 #b5b5b5;
-    }
+/* Tailwind 預設不包含捲軸細節控制，保留這部分最為精簡 */
+aside::-webkit-scrollbar {
+  width: 8px;
+}
+aside::-webkit-scrollbar-track {
+  background: #2a2a2a;
+}
+aside::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 8px;
+}
+aside::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
 </style>

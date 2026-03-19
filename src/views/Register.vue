@@ -1,27 +1,51 @@
 <template>
-  <div class="register-container">
-    <div class="register-card">
-      <h2>註冊</h2>
+  <div class="flex items-center justify-center h-full">
+    <div class="w-[360px] p-8 rounded-2xl shadow-lg text-center text-gray-200">
+      <h2 class="text-2xl font-bold text-white mb-5">註冊</h2>
+
       <form @submit.prevent="handleRegister">
-        <div class="form-group">
-          <label for="username">使用者名稱</label>
-          <input type="text" id="username" v-model="form.username" required />
+        <div class="mb-4 text-left">
+          <label class="block mb-1.5 text-sm text-gray-400"> 使用者名稱 </label>
+          <input
+            type="text"
+            v-model="form.username"
+            required
+            class="w-full px-3 py-2 rounded-lg border border-gray-600 bg-[#2a2a2a] text-white outline-none text-sm focus:border-orange-500 transition-colors"
+          />
         </div>
 
-        <div class="form-group">
-          <label for="email">電子郵件</label>
-          <input type="email" id="email" v-model="form.email" required />
+        <div class="mb-4 text-left">
+          <label class="block mb-1.5 text-sm text-gray-400"> 電子郵件 </label>
+          <input
+            type="email"
+            v-model="form.email"
+            required
+            class="w-full px-3 py-2 rounded-lg border border-gray-600 bg-[#2a2a2a] text-white outline-none text-sm focus:border-orange-500 transition-colors"
+          />
         </div>
 
-        <div class="form-group">
-          <label for="password">密碼</label>
-          <input type="password" id="password" v-model="form.password" required />
+        <div class="mb-4 text-left">
+          <label class="block mb-1.5 text-sm text-gray-400"> 密碼 </label>
+          <input
+            type="password"
+            v-model="form.password"
+            required
+            class="w-full px-3 py-2 rounded-lg border border-gray-600 bg-[#2a2a2a] text-white outline-none text-sm focus:border-orange-500 transition-colors"
+          />
         </div>
 
-        <button type="submit" class="register-btn">註冊</button>
+        <button
+          type="submit"
+          class="mt-2 w-full py-3 rounded-xl bg-orange-500 text-white text-base font-semibold hover:bg-orange-400 hover:-translate-y-0.5 transition-all duration-300"
+        >
+          註冊
+        </button>
 
-        <p class="login-link">
-          已經有帳號了嗎？ <RouterLink to="/login">立即登入</RouterLink>
+        <p class="mt-4 text-sm text-gray-400">
+          已經有帳號了嗎？
+          <RouterLink to="/login" class="text-blue-500 font-semibold hover:underline">
+            立即登入
+          </RouterLink>
         </p>
       </form>
     </div>
@@ -29,109 +53,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
-import { RouterLink } from "vue-router"
+import { ref } from 'vue'
+import { RouterLink } from 'vue-router'
 
 const form = ref({
-  username: "",
-  email: "",
-  password: ""
+  username: '',
+  email: '',
+  password: '',
 })
 
 const handleRegister = () => {
-  console.log("註冊資料：", form.value)
-  alert("註冊成功！🎉")
+  console.log('註冊資料：', form.value)
+  alert('註冊成功！🎉')
 }
 </script>
-
-<style scoped>
-/* 背景 */
-.register-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background-color: transparent; /* 🔹 主背景 */
-}
-
-/* 黑色卡片 */
-.register-card {
-  padding: 30px;
-  width: 360px;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-  text-align: center;
-  color: #eee;
-}
-
-/* 標題 */
-.register-card h2 {
-  margin-bottom: 20px;
-  color: #fff;
-}
-
-/* 表單輸入區 */
-.form-group {
-  margin-bottom: 15px;
-  text-align: left;
-}
-
-label {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 14px;
-  color: #ccc;
-}
-
-input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #555;
-  background: #2a2a2a; /* 🔹 深色背景 */
-  color: #fff;
-  outline: none;
-  font-size: 14px;
-}
-
-input:focus {
-  border-color: #ff9800; /* 🔹 聚焦時顯示橘色邊框 */
-}
-
-/* 註冊按鈕（橘色） */
-.register-btn {
-  margin-top: 10px;
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 10px;
-  background: #ff9800;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.register-btn:hover {
-  background: #ffa726;
-  transform: translateY(-2px);
-}
-
-/* 登入連結 */
-.login-link {
-  margin-top: 15px;
-  font-size: 14px;
-  color: #bbb;
-}
-
-.login-link a {
-  color: #2196f3; /* 🔹 藍色呼應登入 */
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.login-link a:hover {
-  text-decoration: underline;
-}
-</style>
