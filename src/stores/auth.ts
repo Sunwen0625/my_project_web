@@ -34,6 +34,19 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = null
   }
 
+  function setRoleDebug(newRole: Role) {
+    role.value = newRole
+
+    // 模擬不同身份資料
+    if (newRole === 'guest') {
+      user.value = null
+    } else if (newRole === 'user') {
+      user.value = { name: '測試使用者' }
+    } else if (newRole === 'admin') {
+      user.value = { name: '管理員' }
+    }
+  }
+
   return {
     role,
     user,
@@ -43,5 +56,6 @@ export const useAuthStore = defineStore('auth', () => {
     loginAsUser,
     loginAsAdmin,
     logout,
+    setRoleDebug, // 新增的調試方法
   }
 })

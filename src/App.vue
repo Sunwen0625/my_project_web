@@ -2,6 +2,8 @@
 import { RouterView } from 'vue-router'
 import HeaderView from './components/layout/HeaderView.vue'
 import Sidebar from './components/layout/Sidebar.vue'
+import DevRoleSwitcher from '@/components/DevRoleSwitcher.vue'
+const isDev = import.meta.env.DEV
 </script>
 
 <template>
@@ -18,6 +20,8 @@ import Sidebar from './components/layout/Sidebar.vue'
       <!-- 右側內容 -->
       <section class="p-5 bg-black flex justify-center items-center overflow-auto">
         <RouterView />
+        <!-- 🔹 只在開發環境 -->
+        <DevRoleSwitcher v-if="isDev" />
       </section>
     </div>
   </div>

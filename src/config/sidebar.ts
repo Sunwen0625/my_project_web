@@ -32,10 +32,8 @@ export const sidebarConfig: Record<string, MenuItem[]> = {
   admin: [
     {
       name: '個人資料',
-      children: [{ name: '基本資料', path: '/profile' }],
+      path: '/profile',
     },
-
-    { name: '收到檢舉', path: '/admin/reports' },
     { name: '申訴重審', path: '/admin/appeals' },
     { name: '違規停車位置', path: '/map' },
   ],
