@@ -14,6 +14,7 @@ const auth = useAuthStore()
       email: 'test@mail.com',
       phone: '0912345678',
       idNumber: 'A123456789',
+      address: '台北市大安區復興南路一段390號2樓',
     }"
   />
 
