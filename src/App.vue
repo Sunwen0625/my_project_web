@@ -3,24 +3,25 @@ import { RouterView } from 'vue-router'
 import HeaderView from './components/layout/HeaderView.vue'
 import Sidebar from './components/layout/Sidebar.vue'
 import DevRoleSwitcher from '@/components/DevRoleSwitcher.vue'
+import { useLayout } from '@/components/useLayout'
+
 const isDev = import.meta.env.DEV
+const { showSidebar, layoutClass } = useLayout()
 </script>
 
 <template>
-  <!-- 整體佈局：Header + Main -->
   <div class="flex flex-col min-h-screen">
-    <!-- 上方 Header -->
+    <!-- Header -->
     <HeaderView />
 
-    <!-- 主要區塊：Sidebar + 右側內容 -->
-    <div class="grid grid-cols-[240px_1fr] flex-1">
+    <!-- 主區塊 -->
+    <div class="flex-1" :class="layoutClass">
       <!-- Sidebar -->
-      <Sidebar class="h-full" />
+      <Sidebar v-if="showSidebar" class="h-full" />
 
-      <!-- 右側內容 -->
-      <section class="p-5 bg-black flex justify-center items-center overflow-auto">
+      <!-- 內容 -->
+      <section class="p-5 bg-black flex justify-center items-center overflow-auto flex-1">
         <RouterView />
-        <!-- 🔹 只在開發環境 -->
         <DevRoleSwitcher v-if="isDev" />
       </section>
     </div>
