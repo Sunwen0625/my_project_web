@@ -19,8 +19,18 @@ onMounted(fetchData)
 
 <template>
   <div class="p-6">
-    <h2 class="text-2xl font-bold text-white mb-4">違規歷史</h2>
+    <h2 class="text-2xl font-bold text-white mb-4">違規紀錄</h2>
 
-    <BaseRecordTable :data="data" :error="error" />
+    <BaseRecordTable :data="data" :error="error">
+      <!-- 🔹 自訂操作欄 -->
+      <template #actions="{ item }">
+        <button
+          @click="appealStore.submitAppeal(item)"
+          class="px-3 py-1 rounded bg-yellow-500 hover:bg-yellow-400 text-white text-sm"
+        >
+          申訴
+        </button>
+      </template>
+    </BaseRecordTable>
   </div>
 </template>

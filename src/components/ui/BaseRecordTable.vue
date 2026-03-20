@@ -96,14 +96,17 @@ const gmapUrl = (lat?: number | null, lon?: number | null) => {
               </td>
 
               <td class="px-4 py-2">
-                <a
-                  v-if="gmapUrl(item.經緯度?.lat, item.經緯度?.lon)"
-                  :href="gmapUrl(item.經緯度.lat, item.經緯度.lon)!"
-                  target="_blank"
-                  class="px-3 py-1 rounded bg-blue-500 hover:bg-blue-400 text-white text-sm"
-                >
-                  地圖
-                </a>
+                <slot name="actions" :item="item">
+                  <!-- 預設行為 -->
+                  <a
+                    v-if="gmapUrl(item.經緯度?.lat, item.經緯度?.lon)"
+                    :href="gmapUrl(item.經緯度.lat, item.經緯度.lon)!"
+                    target="_blank"
+                    class="px-3 py-1 rounded bg-blue-500 hover:bg-blue-400 text-white text-sm"
+                  >
+                    地圖
+                  </a>
+                </slot>
               </td>
             </tr>
 
