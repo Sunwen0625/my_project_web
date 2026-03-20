@@ -95,7 +95,7 @@ defineProps<{
       <!-- 操作按鈕 -->
       <div class="flex justify-end gap-4">
         <button
-          class="px-5 py-2 rounded-xl bg-yellow-500 hover:bg-yellow-400 transition text-white font-semibold"
+          class="px-5 py-2 rounded-xl bg-yellow-600 hover:bg-yellow-500 transition text-white font-semibold"
         >
           編輯資料
         </button>

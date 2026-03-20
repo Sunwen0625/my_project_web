@@ -34,7 +34,7 @@ export const sidebarConfig: Record<string, MenuItem[]> = {
       name: '個人資料',
       path: '/profile',
     },
-    { name: '申訴重審', path: '/admin/appeals' },
+    { name: '申訴重審', path: '/appeals' },
     { name: '違規停車位置', path: '/map' },
   ],
 }

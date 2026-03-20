@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import BaseRecordTable from '@/components/ui/BaseRecordTable.vue'
+import { useAppealStore } from '@/stores/appeal'
+
+const appealStore = useAppealStore()
 const data = ref([])
 const error = ref<string | null>(null)
 
@@ -12,6 +15,9 @@ const fetchData = async () => {
   } catch (e) {
     error.value = '讀取失敗'
   }
+}
+const isAppealed = (item) => {
+  return appealStore.appeals.some((c) => c.時間 === item.時間 && c.車牌 === item.車牌)
 }
 
 onMounted(fetchData)
@@ -26,9 +32,10 @@ onMounted(fetchData)
       <template #actions="{ item }">
         <button
           @click="appealStore.submitAppeal(item)"
-          class="px-3 py-1 rounded bg-yellow-500 hover:bg-yellow-400 text-white text-sm"
+          :disabled="isAppealed(item)"
+          class="px-3 py-1 rounded bg-yellow-600 hover:bg-yellow-500 disabled:bg-gray-500 text-white text-sm"
         >
-          申訴
+          {{ isAppealed(item) ? '已申訴' : '申訴' }}
         </button>
       </template>
     </BaseRecordTable>
