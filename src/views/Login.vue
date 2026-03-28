@@ -74,6 +74,6 @@ const handleLogin = () => {
   }
 
   // 🔹 導回首頁（Navbar 會自動更新）
-  router.push('/')
+  router.push('/profile')
 }
 </script>

@@ -2,10 +2,10 @@
 defineProps<{
   user: {
     name: string
-    email?: string
-    phone?: string
-    idNumber?: string
-    address?: string
+    email: string
+    phone: string
+    idNumber: string
+    address: string
   }
 }>()
 </script>
