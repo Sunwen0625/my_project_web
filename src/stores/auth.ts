@@ -29,6 +29,11 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = userData
   }
 
+  function updateAvatar(avatar: string) {
+    if (!user.value) return
+    user.value.avatar = avatar
+  }
+
   function logout() {
     role.value = 'guest'
     user.value = null
@@ -55,6 +60,7 @@ export const useAuthStore = defineStore('auth', () => {
     isAdmin,
     loginAsUser,
     loginAsAdmin,
+    updateAvatar,
     logout,
     setRoleDebug, // 新增的調試方法
   }

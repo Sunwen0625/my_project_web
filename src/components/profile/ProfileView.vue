@@ -7,12 +7,15 @@ defineProps<{
     idNumber: string
     address: string
   }
+  licenses: string[]
+  avatar: string
 }>()
+defineEmits(['edit', 'uploadAvatar'])
 </script>
 
 <template>
   <div class="flex justify-center py-10">
-    <div class="w-full max-w-3xl bg-[#2a2a2a] rounded-2xl shadow-lg p-8 text-gray-200">
+    <div class="w-full max-w-3xl p-8 text-gray-200">
       <!-- 標題 -->
       <h1 class="text-2xl font-bold text-white mb-6">使用者資料</h1>
 
@@ -23,10 +26,18 @@ defineProps<{
           <div
             class="w-24 h-24 rounded-full overflow-hidden border-2 border-white bg-gray-500 flex items-center justify-center"
           >
-            <img src="@/assets/user.png" alt="User Avatar" class="w-full h-full object-cover" />
+            <img :src="avatar" alt="User Avatar" class="w-full h-full object-cover" />
           </div>
 
-          <button class="text-sm text-blue-400 hover:underline">上傳頭像</button>
+          <label class="text-sm text-blue-400 hover:underline cursor-pointer">
+            上傳頭像
+            <input
+              type="file"
+              accept="image/*"
+              class="hidden"
+              @change="$emit('uploadAvatar', $event)"
+            />
+          </label>
         </div>
 
         <!-- 基本資訊 -->
@@ -67,25 +78,9 @@ defineProps<{
 
         <div class="space-y-3">
           <!-- 單一車牌 -->
-          <div class="flex gap-3">
-            <input
-              type="text"
-              placeholder="請輸入車牌號碼"
-              class="flex-1 px-3 py-2 rounded-lg border border-gray-600 bg-[#1f1f1f] text-white outline-none focus:border-blue-500"
-            />
-            <button
-              class="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-400 transition text-white font-semibold"
-            >
-              儲存
-            </button>
+          <div class="flex flex-col gap-3">
+            <div v-for="(plate, i) in licenses" :key="i">* {{ plate }}</div>
           </div>
-
-          <!-- 新增 -->
-          <button
-            class="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-500 transition text-white font-semibold"
-          >
-            ＋ 增加車牌
-          </button>
         </div>
       </div>
 
@@ -95,6 +90,7 @@ defineProps<{
       <!-- 操作按鈕 -->
       <div class="flex justify-end gap-4">
         <button
+          @click="$emit('edit')"
           class="px-5 py-2 rounded-xl bg-yellow-600 hover:bg-yellow-500 transition text-white font-semibold"
         >
           編輯資料

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
-import UserProfile from '@/components/ui/UserProfile.vue'
+import UserProfile from '@/components/profile/UserProfile.vue'
 import AdminProfile from '@/components/ui/AdminProfile.vue'
 
 const auth = useAuthStore()
