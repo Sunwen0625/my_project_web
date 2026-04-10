@@ -49,6 +49,19 @@ const gmapUrl = (lat?: number | null, lon?: number | null) => {
   if (lat == null || lon == null) return null
   return `https://www.google.com/maps?q=${lat},${lon}`
 }
+// 🔹 圖片預覽邏輯
+const previewVisible = ref(false)
+const previewImage = ref('')
+
+const openPreview = (url: string) => {
+  previewImage.value = url
+  previewVisible.value = true
+}
+
+const closePreview = () => {
+  previewVisible.value = false
+  previewImage.value = ''
+}
 </script>
 
 <template>
@@ -91,7 +104,12 @@ const gmapUrl = (lat?: number | null, lon?: number | null) => {
               </td>
 
               <td class="px-4 py-2">
-                <img v-if="item.照片" :src="item.照片" class="w-16 h-16 object-cover rounded" />
+                <img
+                  v-if="item.照片"
+                  :src="item.照片"
+                  class="w-16 h-16 object-cover rounded cursor-pointer hover:scale-105 transition"
+                  @click="openPreview(item.照片)"
+                />
                 <span v-else class="text-gray-400">無</span>
               </td>
 
@@ -129,4 +147,26 @@ const gmapUrl = (lat?: number | null, lon?: number | null) => {
       </div>
     </div>
   </div>
+  <Teleport to="body">
+    <div
+      v-if="previewVisible"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
+      @click="closePreview"
+    >
+      <div class="relative max-w-5xl max-h-[90vh] p-4">
+        <img
+          :src="previewImage"
+          class="max-w-full max-h-[85vh] rounded-xl shadow-2xl"
+          @click.stop
+        />
+
+        <button
+          class="absolute top-2 right-2 bg-white text-black px-3 py-1 rounded-full"
+          @click="closePreview"
+        >
+          ✕
+        </button>
+      </div>
+    </div>
+  </Teleport>
 </template>
