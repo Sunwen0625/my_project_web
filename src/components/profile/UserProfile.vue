@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { toRef } from 'vue'
 import ProfileView from '@/components/profile/ProfileView.vue'
 import ProfileForm from '@/components/profile/ProfileForm.vue'
 import { useProfile } from '@/composables/useProfile'
@@ -10,9 +11,11 @@ const props = defineProps<{
     phone: string
     idNumber: string
     address: string
+    avatar?: string
   }
 }>()
 
+const userRef = toRef(props, 'user')
 const {
   isEditing,
   form,
@@ -24,7 +27,7 @@ const {
   saveProfile,
   addLicense,
   removeLicense,
-} = useProfile(props.user)
+} = useProfile(userRef)
 </script>
 
 <template>
