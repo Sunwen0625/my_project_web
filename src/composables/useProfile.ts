@@ -12,7 +12,12 @@ interface UserProfile {
   avatar?: string
 }
 
-export function useProfile(user: Ref<UserProfile>) {
+type Car = {
+  car_id: number
+  license_plate: string
+}
+
+export function useProfile(userRef: Ref<UserProfile>, carsRef: any) {
   const auth = useAuthStore()
   const isEditing = ref(false)
 
@@ -35,14 +40,13 @@ export function useProfile(user: Ref<UserProfile>) {
     avatar: '',
   })
 
-  const licenses = ref<string[]>([])
-  const newLicense = ref('')
+  const cars = ref<Car[]>([])
 
   // 頭像改成獨立 ref，避免 computed 與 API 資料衝突
   const avatar = ref(defaultAvatar)
-
+  // ===== 初始化 user =====
   watch(
-    user,
+    userRef,
     (newUser) => {
       if (!newUser) return
 
@@ -56,6 +60,18 @@ export function useProfile(user: Ref<UserProfile>) {
       avatar.value = newUser.avatar || defaultAvatar
     },
     { immediate: true, deep: true },
+  )
+  // ===== 初始化 cars =====
+  watch(
+    carsRef,
+    (val) => {
+      if (!Array.isArray(val)) {
+        cars.value = []
+        return
+      }
+      cars.value = [...val]
+    },
+    { immediate: true },
   )
 
   /**
@@ -110,7 +126,7 @@ export function useProfile(user: Ref<UserProfile>) {
   const saveProfile = async () => {
     try {
       // 调用更新用户信息的API，传入用户邮箱和要更新的信息
-      const res = await updateUserByEmail(user.value.email, {
+      const res = await updateUserByEmail(userRef.value.email, {
         name: form.value.name, // 用户姓名
         email: form.value.email, // 用户邮箱
         phone_number: form.value.phone, // 用户电话号码
@@ -144,27 +160,48 @@ export function useProfile(user: Ref<UserProfile>) {
    * 添加许可证的函数
    * 将输入的新许可证添加到许可证列表中，并清空输入框
    */
-  const addLicense = () => {
-    const license = newLicense.value.trim() // 获取输入的许可证值并去除前后空格
-    if (!license) return // 如果许可证为空，则直接返回，不执行后续操作
+  // ===== 新增車牌 =====
+  const addLicense = async (plate: string) => {
+    console.log('click +', plate)
+    if (!plate.trim()) return
 
-    licenses.value.push(license) // 将有效的许可证添加到许可证列表中
-    newLicense.value = '' // 清空输入框的值
+    try {
+      const res = await fetch(`/api/cars/1`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          license_plate: plate,
+        }),
+      })
+
+      if (!res.ok) throw new Error('新增失敗')
+
+      const newCar = await res.json()
+
+      // 更新 UI
+      cars.value.push(newCar)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
-  /**
-   * 根据索引删除许可证数组中的元素
-   * @param index - 要删除的元素在数组中的位置索引
-   */
-  const removeLicense = (index: number) => {
-    licenses.value.splice(index, 1) // 使用splice方法从数组中移除指定索引的元素
+  // ===== 刪除車牌 =====
+  const removeLicense = async (carId: number) => {
+    try {
+      await fetch(`/api/cars/1/${carId}`, {
+        method: 'DELETE',
+      })
+
+      cars.value = cars.value.filter((c) => c.car_id !== carId)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   return {
     isEditing,
     form,
-    licenses,
-    newLicense,
+    cars,
     avatar,
     handleAvatarUpload,
     toggleEdit,

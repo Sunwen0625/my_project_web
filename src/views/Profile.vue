@@ -6,8 +6,13 @@ import AdminProfile from '@/components/ui/AdminProfile.vue'
 import { getUserByEmail, type UserProfile } from '@/api/user'
 
 const auth = useAuthStore()
-const licenses = ref<string[]>([])
 
+type Car = {
+  car_id: number
+  license_plate: string
+}
+
+const cars = ref<Car[]>([])
 const user = ref<UserProfile>({
   name: '',
   email: '',
@@ -26,12 +31,27 @@ async function fetchUser() {
     console.error('載入使用者失敗', error)
   }
 }
+async function fetchCars() {
+  try {
+    const res = await fetch(`/api/cars/1`) // 先寫死
+    const data = await res.json()
+    if (Array.isArray(data)) {
+      cars.value = data
+    } else {
+      console.error('cars API 格式錯誤', data)
+      cars.value = []
+    }
+  } catch (e) {
+    console.error('載入車牌失敗', e)
+  }
+}
 
 watch(
   () => auth.isUser,
-  (isUser) => {
+  async (isUser) => {
     if (isUser) {
-      fetchUser()
+      await fetchUser()
+      await fetchCars()
     }
   },
   { immediate: true },
@@ -39,7 +59,7 @@ watch(
 </script>
 <template>
   <!-- 一般使用者 -->
-  <UserProfilePage v-if="auth.isUser" :user="user" :licenses="licenses" :avatar="user.avatar" />
+  <UserProfilePage v-if="auth.isUser" :user="user" :cars="cars" :avatar="user.avatar" />
 
   <!-- 管理員 -->
   <AdminProfile

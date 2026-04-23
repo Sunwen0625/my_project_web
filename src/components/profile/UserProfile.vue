@@ -13,21 +13,25 @@ const props = defineProps<{
     address: string
     avatar?: string
   }
+  cars: {
+    car_id: number
+    license_plate: string
+  }[]
 }>()
 
 const userRef = toRef(props, 'user')
+const carsRef = toRef(props, 'cars')
 const {
   isEditing,
   form,
-  licenses,
-  newLicense,
+  cars,
   avatar,
   handleAvatarUpload,
   toggleEdit,
   saveProfile,
   addLicense,
   removeLicense,
-} = useProfile(userRef)
+} = useProfile(userRef, carsRef)
 </script>
 
 <template>
@@ -35,8 +39,8 @@ const {
     <div class="w-full max-w-3xl bg-[#2a2a2a] rounded-2xl p-8">
       <ProfileView
         v-if="!isEditing"
-        :user="props.user"
-        :licenses="licenses"
+        :user="user"
+        :cars="cars"
         :avatar="avatar"
         @edit="toggleEdit"
         @uploadAvatar="handleAvatarUpload"
@@ -45,13 +49,11 @@ const {
       <ProfileForm
         v-else
         :form="form"
-        :licenses="licenses"
-        :newLicense="newLicense"
+        :cars="cars"
         @save="saveProfile"
         @cancel="toggleEdit"
         @addLicense="addLicense"
         @removeLicense="removeLicense"
-        @update:newLicense="(v) => (newLicense = v)"
       />
     </div>
   </div>

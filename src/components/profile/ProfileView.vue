@@ -7,7 +7,10 @@ defineProps<{
     idNumber: string
     address: string
   }
-  licenses: string[]
+  cars: {
+    car_id: number
+    license_plate: string
+  }[]
   avatar: string
 }>()
 defineEmits(['edit', 'uploadAvatar'])
@@ -79,7 +82,7 @@ defineEmits(['edit', 'uploadAvatar'])
         <div class="space-y-3">
           <!-- 單一車牌 -->
           <div class="flex flex-col gap-3">
-            <div v-for="(plate, i) in licenses" :key="i">* {{ plate }}</div>
+            <div v-for="car in cars" :key="car.car_id">* {{ car.license_plate }}</div>
           </div>
         </div>
       </div>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import CarList from '@/components/layout/CarList.vue'
 defineProps<{
   form: {
     name: string
@@ -6,11 +7,13 @@ defineProps<{
     phone: string
     address: string
   }
-  licenses: string[]
-  newLicense: string
+  cars: {
+    car_id: number
+    license_plate: string
+  }[]
 }>()
 
-defineEmits(['save', 'cancel', 'addLicense', 'removeLicense', 'update:newLicense'])
+defineEmits(['save', 'cancel', 'addLicense', 'removeLicense'])
 </script>
 
 <template>
@@ -55,50 +58,21 @@ defineEmits(['save', 'cancel', 'addLicense', 'removeLicense', 'update:newLicense
     <div>
       <p class="text-gray-400 text-sm mb-2 mt-4">車牌管理（選填）</p>
       <!-- 車牌列表垂直 -->
-      <div class="flex flex-col gap-2">
-        <div
-          v-for="(plate, i) in licenses"
-          :key="i"
-          class="flex items-center justify-between bg-[#1f1f1f] px-3 py-2 rounded-lg border border-gray-600"
-        >
-          <span>{{ plate }}</span>
-          <div class="mt-4"></div>
-          <button
-            @click="$emit('removeLicense', i)"
-            class="text-red-500 hover:text-red-400 font-semibold"
-          >
-            刪除
-          </button>
-        </div>
-      </div>
-
-      <div class="flex flex-col gap-3">
-        <!-- 新增車牌輸入 -->
-        <div class="flex gap-2">
-          <input
-            class="w-full px-3 py-2 rounded-lg mt-4 bg-[#1f1f1f] border border-gray-600 text-white focus:border-blue-500"
-            type="text"
-            :value="newLicense"
-            @input="$emit('update:newLicense', ($event.target as HTMLInputElement).value)"
-          />
-          <button
-            @click="$emit('addLicense')"
-            class="text-2xl px-4 py-2 rounded-lg mt-4 bg-green-600 hover:bg-green-500 transition text-white font-semibold"
-          >
-            ＋
-          </button>
-        </div>
-      </div>
+      <CarList
+        :cars="cars"
+        @add="$emit('addLicense', $event)"
+        @delete="$emit('removeLicense', $event)"
+      />
     </div>
+  </div>
 
-    <!-- 儲存按鈕 -->
-    <div class="flex justify-end mt-6">
-      <button
-        @click="$emit('save')"
-        class="px-5 py-2 rounded-xl bg-blue-500 hover:bg-blue-400 transition text-white font-semibold"
-      >
-        儲存
-      </button>
-    </div>
+  <!-- 儲存按鈕 -->
+  <div class="flex justify-end mt-6">
+    <button
+      @click="$emit('save')"
+      class="px-5 py-2 rounded-xl bg-blue-500 hover:bg-blue-400 transition text-white font-semibold"
+    >
+      儲存
+    </button>
   </div>
 </template>
